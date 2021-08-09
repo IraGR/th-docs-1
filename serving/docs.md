@@ -1,12 +1,13 @@
-# How to make Predictions
+{{header: { title: "How to make Predictions" } }}
 
-## <a id="how-to-predict-getting-started"></a> Getting Started
+<a id="how-to-predict-getting-started"></a>
+## Getting Started
 
 Teachables are a powerful machine learning models deployed as an API, entirely documented, available to be consumed by any server-side or client-side applications. Teachables are easily integrated in any platform via the TeachableHub REST API or the Python SDK. 
 
 ### 1. Setup Serving Keys
 
-Serving Keys are the authorization you use for controlling who can make predictions and to which enviroment. Serving keys can be issued for a particular and environment and for a specific period of time. Such constraints ensure the better security of your awesome project. It's quite a useful feature for the times when you have some colleague working on the project only for a month, for example. 
+Serving Keys are the authorization you use for controlling who can make predictions and to which environment of your Teachable. Serving keys can be issued for a particular and environment and for a specific period of time. Such constraints ensure the better security of your awesome project. It's quite a useful feature for the times when you have some colleague working on the project only for a month, for example. 
 
 You can create New Serving Key from Settings -> Serving Keys -> Add Key, where you'll need to supply a Key Name and Environment for which this key will be valid. Best practices suggest the name for each key to be descriptive, some good examples include:  `production`, `staging`, `rails-backoffice`, `ios-app-production` etc.
 
@@ -64,13 +65,21 @@ print(predictions)
 
 <br/><br/>
 
-# <a id="advanced-prediction-guide"></a> Advanced Predictions Guide
 
-We have enriched the Serving process, so you can manage easily and have a variety of options.  
+# Features Help Section
+
+{{features_help}}
+
+
+<a id="how-to-predict-advanced-prediction-guide"></a> 
+
+# Advanced Predictions Guide
+
+The Serving process is quite straightforward and seamless. However, TeachbleHub also offers a variety of options for the times you need to fine-tune and order the predictions.  
 
 ## Specific Version Predictions
 
-This is useful when you want to test with a older version of the model or when you want to improve the security and to have more control of what will be used in the software when this teachable is integrated it. It gives you the option to get predictions from a specific deployment version.
+This is useful when you want to test with an older version of the model or when you want to improve the security and to have more control of what will be used in the software when this teachable is integrated. It gives you the option to get predictions from a specific deployment version.
 
 ```python
 teachable = TeachableHubPredictAPI(
@@ -84,7 +93,7 @@ teachable = TeachableHubPredictAPI(
 
 ## Latest Version Predictions
 
-That's the way to go, when you want to use always latest and greatest version. Do not specify any version and your Teachable will always return predictions from the latest model deployed in the specific environment. Such approach is recommended and very helpful for automating your deployment pipeline.
+That's the way to go, when you want to use always latest and greatest version. Do not specify any version and your Teachable will always return predictions from the latest model activated in the specific environment. Such approach is recommended and very helpful for automating your deployment pipeline.
 
 ```python
 teachable = TeachableHubPredictAPI(
@@ -165,9 +174,11 @@ The SDK raise the following exceptions:
 | `UnauthorizedError`     |  Wrong Serving Key or configuration |
 
 
-# <a id="how-to-predict-rest-api"></a> REST API
+<a id="how-to-predict-rest-api"></a>
 
-> You can play around with your teachables via the [TeachbaleHub's Serving API Swagger UI](https://serve-teachablehub-dev.scalabl.cloud/docs#/predictions/predict__user___teachable__predict__post) or following the examples below.
+# REST API
+
+> You can play around with your teachables via the [TeachbaleHub's Serving API Swagger UI]({{serving_api_swagger_url}}docs#/predictions/predict__user___teachable__predict__post) or following the examples below.
 
 <br />
 
@@ -189,7 +200,7 @@ For each prediction request towards the Rest API, you can pass the following Que
 | :---  | :--- | :--- | :--- | :--- |
 | environment     | `string` |  `your-teachable-env` | `production` | Specifies towards which deployment environment the prediction will be made. |
 | version     | `int` |  **min**: `0` **max** `2000` | `0` | Specifies towards which deployment version the prediction will be made. |
-| order     | `string` |  `desc` or `asc` | `desc` | sorting the results when working with multiple number of classes. That works only when you've defined the classes in the Teachable Deployment |
+| order     | `string` |  `desc` or `asc` | `desc` | Very useful option for sorting the results when working with multiple number of classes. That works only when you've defined the classes in the Teachable Deployment|
 | limit     |    `int` | **min**: `0` **max** `2000` | `-1`  | Set limitation on the number of classes that will be returned. That works only when you've defined the classes in the Teachable Deployment|
 | threshold | `float` | **min**: `0.0` **max** `1.0` | `0.0` | Returns all classes that the model confidence classifies above the given threshold.|
 
@@ -229,7 +240,7 @@ curl -X 'POST' \
 
 This is an actual prediction response of `v{{deployment_version}}` of the `{{handler}}/{{teachable}}`
 
-> Keep in mind that this response can change based on the deployment configuration. To be aware with all the possible prediction responses please visit the [TeachbaleHub's Serving API Swagger Docs](https://serve-teachablehub-dev.scalabl.cloud/docs#/predictions/predict__user___teachable__predict__post)
+> Keep in mind that this response can change based on the deployment configuration. To be aware with all the possible prediction responses please visit the [TeachbaleHub's Serving API Swagger Docs]({{serving_api_swagger_url}}docs#/predictions/predict__user___teachable__predict__post)
 
 ```javascript
 {{deployment_prediction_result}}
@@ -240,7 +251,7 @@ This is an actual prediction response of `v{{deployment_version}}` of the `{{han
 
 The TeachableHub's Serving API uses conventional HTTP response codes to indicate the success or failure of an API request. In general: Codes in the 2xx range indicate success. Codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a prediction failed, etc.). Codes in the 5xx range indicate an error with the TeachableHub's Serving API servers (these are rare).
 
-> Examples of the Errors Responses you can find at the [TeachbaleHub's Serving API Swagger Docs](https://serve-teachablehub-dev.scalabl.cloud/docs#/predictions/predict__user___teachable__predict__post)
+> Examples of the Errors Responses you can find at the [TeachbaleHub's Serving API Swagger Docs]({{serving_api_swagger_url}}docs#/predictions/predict__user___teachable__predict__post)
 
 
 | Code     |      Message      |
@@ -254,4 +265,15 @@ The TeachableHub's Serving API uses conventional HTTP response codes to indicate
 | 500     |  Unhandled internal server error. Please open a ticket to report it. |
 | 501     |  Not Implemented features or methods. |
 
+<br /><br /><br />
 
+# Streamlit Apps
+
+![TeachableHub + Streamlit + Heroku](https://media-blog.sashido.io/content/images/2021/07/thslhe.001.jpeg)
+
+Integrate your Teachables within your Streamlit projects and deploy them on Heroku for free.
+
+## Demo Applications
+
+- [Iris Classifier with sklearn](https://th-iris-demo.herokuapp.com/) ([source code](https://github.com/teachablehub/streamlit-ludwig-ui-demo-app))
+- [BBC Text Classifier with Ludwig](https://th-ludwig-demo.herokuapp.com/) ([source code](https://github.com/teachablehub/streamlit-ludwig-ui-demo-app))
