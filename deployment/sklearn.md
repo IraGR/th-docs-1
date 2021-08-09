@@ -1,6 +1,7 @@
-# <a id="how-to-deploy"></a> Deploying Scikit-Learn Models
+{{header: { title: "Deploying Scikit-Learn Models" } }}
 
-## <a id="how-to-deploy-getting-started"></a> Getting Started
+<a id="how-to-deploy-getting-started"></a>
+## Getting Started
 
 You can integrate this SDK in your training logic, Jupyter notebook during experimentation, or your CI/CD system during the production environment. This SDK is also applicable for deploying existing models from your model registry or storage.
 
@@ -16,14 +17,14 @@ pip install teachablehub
 
 ### 2. Setup Deployment Keys
 
-To deploy any model to your Teachable, you'll need a Deployment Key. Deployment keys can be restricted for a particular environment and for a specific period of time. Such constraints might ensure the better security of your awesome project. It's quite a useful feature for the times when only a few members of your team are responsible for deployments in production and need to have permission or you when have some colleague working on the project only for a month. 
+To deploy any model to your Teachable, you'll need a Deployment Key. Deployment keys can be restricted for a particular environment and for a specific period of time. Such constraints might ensure the better security of your awesome project. It's quite a useful feature for the times when only a few members of your team are responsible for deployments in production and need having permission or you when have some colleague working on the project only for a month. 
 
 You can create New Deployment Key from Settings -> Deploy Keys -> Add Key, where you'll need to supply a Key Name and Environment for which this key will be valid. Best practices suggest the name for each key to be descriptive, some good examples include: `production`, `staging`, `backend-team`, `ds-team`, `john-dev`, `jane-staging` etc.
 
 {{button: { to: "/{{handler}}/{{teachable}}/settings/deploy-keys/new", type: "primary", size: "medium", title: "Create a new Deploy Key" } }}
 
-
-### <a id="how-to-deploy-examples"></a> 3. Deploy a Model
+<a id="how-to-deploy-examples"></a>
+### 3. Deploy a Model
 
 Check the following quick example on how to easily deploy your model.
 
@@ -58,7 +59,8 @@ If you want know more about the deployment process or all of the features please
 
 <br /><br /><br />
 
-## <a id="jupyter-notebook-environment"></a> Model Deployment for Data Scientists
+<a id="how-to-deploy-jupyter-notebook-environment"></a>
+## Model Deployment for Data Scientists
 
 We know that Jupyter Notebook is a favorite tool for experimentations and innovations. Having this in mind we would love to share with you a ready-to-use basic but powerful DeepNote workflow combining the Experimentation and Deployment process in just 2 simple steps.
 
@@ -79,7 +81,8 @@ Designed with simplicity in mind, TeachbaleHub provides you with free-of-charge 
 
 <br /><br /><br />
 
-## <a id="advanced-deployment-guide"></a> Advanced Deployment Guide
+<a id="how-to-deploy-advanced-deployment-guide"></a>
+## Advanced Deployment Guide
 
 The Deployment process in TeachableHub is quite automated and seamless, but it also offers many additional options that help you and your team to keep a neat workflow and speak the same language.  
 
@@ -120,7 +123,7 @@ deployment.schema({
 # What we have in the request (they can be in different order)
 {"features": {"sepal_length": 3, "sepal_width": 1, "petal_length": 2 "petal_width": 4} }
 
-#Our ndarray map look like this / We ensure the same order every time.
+# Our ndarray map look like this / We ensure the same order every time.
 "ndarray": [["sepal_length", "sepal_width", "petal_length", "petal_width" ]]
 
 # What TeachableHub will do automatically
@@ -146,6 +149,25 @@ Data types allowed for the key value pairs can be one of the following Type Name
 | `string`     | [basestring()](#) | [str](#) |
 | `date`     | [datetime.date](#) | [datetime.date](#) |
 
+### `allowed`
+
+This rule takes a list of allowed values. Validates the target value if the value is in the allowed values. The types `string`, `number`, etc. are supported as well.
+
+```python
+deployment.schema({
+    "features": {
+        ...
+        "sex":  { 
+            "type": "integer",
+            "allowed": [1, 2], 
+            "max": 0.1,
+            "help": "sex as integer, 1 for Male and 2 for Femail."
+        },
+        ...
+    },
+    ...
+})
+```
 
 ### `min, max`
 
@@ -180,7 +202,7 @@ deployment.schema({
 
 ### `help`
 
-**TeachableHub use this rule to generate Docs section automatically where explain what is this feature about.** This is very helpful when your backend team or 3rd-party integrator consume the API, because they will be aware what data they should provide to the Teachable Predict API. 
+**TeachableHub uses this rule to generate Docs section automatically where explain what is this feature about.** This is very helpful when your backend team or 3rd-party integrator consumes the API because they will be aware of what data they should provide to the Teachable Predict API.
 
 ```python
 deployment.schema({
@@ -253,9 +275,10 @@ deployment.deploy(
 )
 ```
 
-## <a id="ci-cd-automation-helpers"></a> CI/CD Automations Helpers
+<a id="how-to-deploy-ci-cd-automation-helpers"></a>
+## CI/CD Automations Helpers
 
-Here are a couple of useful functions that can assist in automating your model deployment in your CI/CD systems.
+Below you may find a couple of useful functions that can assist in automating your model deployment in your CI/CD systems.
 
 ### `.successful()`
 
@@ -268,7 +291,7 @@ if deployment.successful():
 
 ### `.verified(reload=False)`
 
-After every deployment based on your `.samples({...})` explained above, TeachableHub is verifing whether or not the deployment is configured correctly and woking as expected.
+After every deployment based on your `.samples({...})` explained above, TeachableHub is verifying whether or not the deployment is configured correctly and working as expected.
 
 The `reload` option is to retrieve the latest updated deployment state from the TeachableHub platform.
 
@@ -334,8 +357,8 @@ Revert to this deployment as your latest version of the environment this deploym
 deployment.rollback(10)
 ```
 
-
-### <a id="other-examples"></a> Other Examples
+<a id="how-to-deploy-other-examples"></a>
+### Other Examples
 
 For the full list of features and examples checkout the following links:
 
@@ -343,8 +366,4 @@ For the full list of features and examples checkout the following links:
 - [Advanced Deployment](https://github.com/teachablehub/python-sdk/blob/master/examples/sklearn-train-deploy-advanced.py)
 - [Advanced Deployment of Regression model](https://github.com/teachablehub/python-sdk/blob/master/examples/sklearn-train-deploy-regression-advanced.py)
 
-{{button: { to: "https://deepnote.com/project/TeachableHub-eXmrWiQKTm6fXJFLzxxCpA/%2Fgetting-started.ipynb", type: "warning", size: "medium", title: "Explore the Jupyter Notebook Environment on Deepnote"} }}
-
-
-
-<br /><br /><br />
+{{button: { to: "https://deepnote.com/project/TeachableHub-eXmrWiQKTm6fXJFLzxxCpA/%2F0_getting-started-sklearn.ipynb", type: "info", size: "medium", title: "Explore the Jupyter Notebook Environment on Deepnote"} }}
