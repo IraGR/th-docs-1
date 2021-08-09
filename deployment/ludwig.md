@@ -1,6 +1,7 @@
-# <a id="how-to-deploy"></a> Deploying Ludwig Models
+{{header: { title: "Deploying Ludwig Models" } }}
 
-## <a id="how-to-deploy-getting-started"></a> Getting Started
+<a id="how-to-deploy-getting-started"></a>
+## Getting Started
 
 You can integrate this SDK in your training logic, Jupyter notebook during experimentation, or your CI/CD system during the production environment. This SDK is also applicable for deploying existing models from your model registry or storage.
 
@@ -16,14 +17,14 @@ pip install teachablehub
 
 ### 2. Setup Deployment Keys
 
-To deploy any model to your Teachable, you'll need a Deployment Key. Deployment keys can be restricted for a particular environment and for a specific period of time. Such constraints might ensure the better security of your awesome project. It's quite a useful feature for the times when only the most experienced members of your team need to have deployment permission for the production environment or you have some colleague working on the project only for a month. 
+To deploy any model to your Teachable, you'll need a Deployment Key. Deployment keys can be restricted for a particular environment and for a specific period of time. Such constraints might ensure the better security of your awesome project. It's quite a useful feature for the times when only a few members of your team are responsible for deployments in production and need to have permission or you when having some colleague working on the project only for a month.  
 
-You can create New Deployment Key from Settings -> Deploy Keys -> Add Key, where you'll need to supply a Key Name and Environment for which this key will be valid. Best practices suggest the name for each key to be descriptive, some good examples include: `production`, `staging`, `backenders-team`, `ds-team`, `john-dev`, `jane-staging` etc.
+You can create New Deployment Key from Settings -> Deploy Keys -> Add Key, where you'll need to supply a Key Name and Environment for which this key will be valid. Best practices suggest the name for each key to be descriptive, some good examples include: `production`, `staging`, `backend-team`, `ds-team`, `john-dev`, `jane-staging` etc.
 
 {{button: { to: "/{{handler}}/{{teachable}}/settings/deploy-keys/new", type: "primary", size: "medium", title: "Create a new Deploy Key" } }}
 
-
-### <a id="how-to-deploy-examples"></a> 3. Deploy a Model
+<a id="how-to-deploy-examples"></a>
+### 3. Deploy a Model
 
 ```python
 from teachablehub.deployments.ludwig import TeachableDeployment
@@ -57,8 +58,8 @@ If you want know more about the deployment process or all of the features please
 
 <br /><br /><br />
 
-
-## <a id="jupyter-notebook-environment"></a> Model Deployment for Data Scientists
+<a id="how-to-deploy-jupyter-notebook-environment"></a>
+## Model Deployment for Data Scientists
 
 We know that Jupyter Notebook is your favorite tool for experimentations and innovations. Having this in mind we would love to share with you a ready-to-use basic but powerful DeepNote workflow combining the Experimentation and Deployment process in just 2 simple steps.
 
@@ -78,21 +79,18 @@ Designed with simplicity in mind, TeachbaleHub provides you with free-of-charge 
 
 <br /><br /><br />
 
-## <a id="advanced-deployment-guide"></a> Advanced Deployment Guide
+<a id="how-to-deploy-advanced-deployment-guide"></a>
+## Advanced Deployment Guide
 
-We have enriched the Deployment with many options to ensure a seamless and clear process.  
+The Deployment process in TeachableHub is quite automated and seamless, but it also offers many additional options that help you and your team to keep a neat workflow and speak the same language.  
 
 ### Schema & Features Validation (optional)
 
-Although TeachableHub has some built-in validation options, you can further fine-tune those in accordance with your specific case.
+TeachableHub has built-in mechanisms for **`Schema and Features Validation` that are automatically received from your Ludwig model `input_features` and `output_features`**. Still, you can further fine-tune those in accordance with your specific case.
 
-WE ARE TRYING TO DO IT AUTOMATICALLY. Change the text here.???//
+For Data Scientists working with ndarrays and with numbers is business as usual. On the other side for the Back-end or the Front-end engineers working with JSON data and object is an everyday job. Not getting lost in translation is essential and configuring this is the connection between these two worlds. You'll surely become your Team's SuperHero right away! 😉
 
-For Data Scientists working with ndarrays and with numbers is business as usual. On the other side for the Back-end or the Front-end engineers working with JSON data and object is an everyday job. Not getting lost in translation is essential and configuring this is the connection between these two worlds. Surely, you'll become your Team's SuperHero right away! 😉
-
-Deployment schema enables the TeachableHub Serving API to accept human-readable features. Furthermore, it ensures those features will be validated before they are sent to the model. 
-
-The schema validation feature eliminates any involuntary mistakes and errors when you are working with your Teachable Predict API and will generate better documentation free of charge.
+Deployment schema enables the TeachableHub Serving API to accept human-readable features. Furthermore, it ensures those features will be validated before they are sent to the model. The cool thing is that it eliminates any involuntary mistakes and errors while working with your Teachable Predict API and will generate better documentation with no effort and free of charge.
 
 #### Structure
 
@@ -125,6 +123,25 @@ Data type allowed for the key value. Can be one of the following names:
 | `string`     | [basestring()](#) | [str](#) |
 | `date`     | [datetime.date](#) | [datetime.date](#) |
 
+### `allowed`
+
+This rule takes a list of allowed values. Validates the target value if the value is in the allowed values. The types `string`, `number`, etc. are supported as well.
+
+```python
+deployment.schema({
+    "features": {
+        ...
+        "sex":  { 
+            "type": "integer",
+            "allowed": [1, 2], 
+            "max": 0.1,
+            "help": "sex as integer, 1 for Male and 2 for Femail."
+        },
+        ...
+    },
+    ...
+})
+```
 
 ### `min, max`
 
@@ -159,7 +176,7 @@ deployment.schema({
 
 ### `help`
 
-**TeachableHub use this rule to generate Docs section automatically where explain what is this feature about.** This is very helpful when your backend team or 3rd-party integrator consume the API, because they will be aware what data they should provide to the Teachable Predict API. 
+**TeachableHub uses this rule to generate Docs section automatically where explain what is this feature about.** This is very helpful when your backend team or 3rd-party integrator consumes the API because they will be aware of what data they should provide to the Teachable Predict API. 
 
 ```python
 deployment.schema({
@@ -175,16 +192,6 @@ deployment.schema({
     },
     ...
 })
-```
-
-### Model Classes (optional)
-
-**This are set automatically. Change it or remove it.**
-
-The TeachableHub's Auto-Generated Serving API will use the Model Classes in the prediction results to return human-readable predictions outputs. If classes are configured for the deployment, Scikit-Learn will use the `predict_proba` method, otherwise, it will use the regular `predict` method.
-
-```python
-deployment.classes({"0": "Setosa", "1": "Versicolour", "2": "Virginica" })
 ```
 
 ### Usage Samples (required)
@@ -216,13 +223,13 @@ deployment.context({
 
 ### Deployment Deploy (required)
 
-This is the final stop of the required deployment steps. Congrats, you're almost there! 😊 Here are the three important params to keep in mind:
+Congrats, you're almost done! 😊 This is the final stop of the required deployment steps. Here are the three important params to keep in mind:
 
 > `summary` - Just like the git commit messages, 'summary' lets you provide some information about the deployment. It's always great to have the details that will help you refer to this specific deployment or rollback.
 
 > `description` -  The description can be used as a changelog when needed. It should contain valuable clues on what's new stuff in this model deployment. I imagine how this can be very helpful for the engineers that are integrating the Serving APIs or maintaining the platforms, using this Teachable. You can change the 'description' from the TeachableHub UI as well.
 
-> `activate` - This option set to 'true' automatically sets the newly deployed model as the latest version of the environment to which it's deployed. Keep in mind that it might be dangerous to execute in the production environment directly. However, it's entirely okay for experimentation or staging environments.
+> `activate` - This option set to 'true' automatically sets the newly deployed model as the latest version of the environment to which it's deployed. Keep in mind that it might be dangerous to execute in the production environment directly. However, it's entirely okay for experiments or staging environments.
 
 
 ```
@@ -233,13 +240,14 @@ deployment.deploy(
 )
 ```
 
-## <a id="ci-cd-automation-helpers"></a> CI/CD Automations Helpers
+<a id="how-to-deploy-ci-cd-automation-helpers"></a>
+## CI/CD Automations Helpers
 
-Here are a couple of useful functions that can assist in automating your model deployment in your CI/CD systems.
+Below you may find are a couple of useful functions that can assist in automating your model deployment in your CI/CD systems.
 
 ### `.successful()`
 
-The `successful` method returns a boolen result whether or not the deployment is created on the TeachableHub platform. Кeep in mind that the deployment need to be verfied successfuly as well in order to be served by the TeachableHub's Serving API. Check the next point for more details on verification.
+The `successful` method returns a boolean result whether or not the deployment is created on the TeachableHub platform. Кeep in mind that the deployment needs to be verified successfully as well in order to be served by the TeachableHub's Serving API. Check the next point for more details on verification.
 
 ```python
 if deployment.successful():
@@ -248,7 +256,7 @@ if deployment.successful():
 
 ### `.verified(reload=False)`
 
-After every deployment based on your `.samples({...})` explained above, TeachableHub is verifing whether or not the deployment is configured correctly and woking as expected.
+After every deployment based on your `.samples({...})` explained above, TeachableHub is verifying whether or not the deployment is configured correctly and working as expected.
 
 The `reload` option is to retrieve the latest updated deployment state from the TeachableHub platform.
 
@@ -314,8 +322,8 @@ Revert to this deployment as your latest version of the environment this deploym
 deployment.rollback(10)
 ```
 
-
-### <a id="other-examples"></a> Other Examples
+<a id="how-to-deploy-other-examples"></a>
+### Other Examples
 
 For the full list of features and examples checkout the following links:
 
@@ -323,8 +331,4 @@ For the full list of features and examples checkout the following links:
 - [Advanced Deployment](https://github.com/teachablehub/python-sdk/blob/master/examples/sklearn-train-deploy-advanced.py)
 - [Advanced Deployment of Regression model](https://github.com/teachablehub/python-sdk/blob/master/examples/sklearn-train-deploy-regression-advanced.py)
 
-{{button: { to: "https://deepnote.com/project/TeachableHub-eXmrWiQKTm6fXJFLzxxCpA/%2Fgetting-started.ipynb", type: "warning", size: "medium", title: "Explore the Jupyter Notebook Environment on Deepnote"} }}
-
-
-
-<br /><br /><br />
+{{button: { to: "https://deepnote.com/project/TeachableHub-eXmrWiQKTm6fXJFLzxxCpA/%2F1_getting-started-ludwig.ipynb", type: "info", size: "medium", title: "Explore the Jupyter Notebook Environment on Deepnote"} }}
